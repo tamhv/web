@@ -1,0 +1,40 @@
+version: '2'
+services:
+  db1: 
+    container_name: db1
+    image: mysql:5.7
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - C:\Users\tamhuynh\mydocker\mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Anhyeuem123
+
+  nginx:
+    links:
+      - php1
+    container_name: nginx
+    image: nginx:1.11.1
+    ports:
+      - "80:80"
+    volumes:
+      - C:\Users\tamhuynh\mydocker\compose\configs:/etc/nginx/conf.d
+      - C:\Users\tamhuynh\mydocker\www:/usr/share/nginx/html
+
+  php1:
+    build: 
+      context: .
+      dockerfile: Dockerfile-php
+    links:
+      - db1
+      - memcached1
+    container_name: php-fpm
+    #image: php:5.6.23-fpm
+    ports:
+      - "9000:9000"
+    volumes:
+      - C:\Users\tamhuynh\mydocker\www:/usr/share/nginx/html
+
+  memcached1:
+    container_name: memcached
+    image: memcached:latest
