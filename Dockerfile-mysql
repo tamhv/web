@@ -1,0 +1,8 @@
+FROM mysql:5.7
+
+RUN ls -ld /var/lib/mysql
+
+RUN chown mysql /var/lib/mysql \
+&& chgrp mysql /var/lib/mysql
+
+RUN ls -ld /var/lib/mysql
